@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { SplashProvider } from "@/components/providers/splash-provider";
 import { AuthProvider } from "@/components/providers/auth-context";
 import { PlatformGuard } from "@/components/providers/platform-guard";
 import { Navbar } from "@/components/layout/navbar";
@@ -151,19 +152,21 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-full flex-col bg-background text-foreground transition-colors`}
       >
         <ThemeProvider>
-          <AuthProvider>
-            <PlatformGuard>
-              <DevBanner />
-              <Suspense fallback={<header className="h-16 border-b border-border/40 bg-background/80" />}>
-                <Navbar />
-              </Suspense>
-              <main className="flex-1 flex flex-col pb-16 md:pb-0">{children}</main>
-              <Suspense fallback={null}>
-                <MobileNav />
-              </Suspense>
-              <Footer />
-            </PlatformGuard>
-          </AuthProvider>
+          <SplashProvider>
+            <AuthProvider>
+              <PlatformGuard>
+                <DevBanner />
+                <Suspense fallback={<header className="h-16 border-b border-border/40 bg-background/80" />}>
+                  <Navbar />
+                </Suspense>
+                <main className="flex-1 flex flex-col pb-16 md:pb-0">{children}</main>
+                <Suspense fallback={null}>
+                  <MobileNav />
+                </Suspense>
+                <Footer />
+              </PlatformGuard>
+            </AuthProvider>
+          </SplashProvider>
         </ThemeProvider>
       </body>
     </html>

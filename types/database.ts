@@ -38,6 +38,7 @@ export interface Profile {
   interests: string[];
   languages: string[];
   prompts?: ProfilePrompt[];
+  email?: string | null;
   phone?: string | null;
   verified?: boolean;
   verified_until?: string | null;

@@ -19,6 +19,8 @@
 
 # production
 /build
+.idea/
+android/.idea/
 
 # misc
 .DS_Store

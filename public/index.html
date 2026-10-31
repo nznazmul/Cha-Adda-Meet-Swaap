@@ -7,165 +7,244 @@
   <style>
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
     body {
       margin: 0;
       padding: 24px;
-      background: #0d0a14;
+      background: #0B0816;
       color: #fff;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       min-height: 100vh;
       text-align: center;
       user-select: none;
       -webkit-user-select: none;
+      overflow: hidden;
+    }
+    .ambient-glow {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: rgba(244, 63, 94, 0.2);
+      filter: blur(80px);
+      pointer-events: none;
+      top: 20%;
+    }
+    .top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.25);
+      color: #fca5a5;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-top: 10px;
     }
     .logo-container {
-      margin-bottom: 18px;
+      position: relative;
+      margin: 20px auto 14px auto;
+      width: 84px;
+      height: 84px;
+    }
+    .logo-pulse {
+      position: absolute;
+      inset: -4px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #f43f5e, #f59e0b);
+      opacity: 0.35;
+      filter: blur(14px);
+      animation: pulse 2s infinite ease-in-out;
     }
     .logo-img {
-      width: 72px;
-      height: 72px;
-      border-radius: 18px;
-      box-shadow: 0 8px 32px rgba(244, 63, 94, 0.3);
+      position: relative;
+      width: 84px;
+      height: 84px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: #19122C;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
-    .spinner {
-      width: 44px;
-      height: 44px;
-      border: 3px solid rgba(244, 63, 94, 0.2);
-      border-top-color: #f43f5e;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-bottom: 20px;
+    @keyframes pulse {
+      0%, 100% { opacity: 0.25; transform: scale(0.96); }
+      50% { opacity: 0.5; transform: scale(1.04); }
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    h2 {
-      margin: 0 0 8px 0;
-      font-size: 24px;
-      font-weight: 800;
+    h1 {
+      margin: 0 0 6px 0;
+      font-size: 26px;
+      font-weight: 900;
       letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #f43f5e, #f59e0b);
+      background: linear-gradient(135deg, #ffffff, #fed7aa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .status-text {
+    .tagline-bn {
+      color: #fbcfe8;
+      font-size: 13px;
+      font-weight: 600;
+      margin: 0 0 4px 0;
+    }
+    .tagline-en {
       color: #9ca3af;
-      font-size: 14px;
-      margin: 0 0 24px 0;
-      transition: color 0.3s;
+      font-size: 11px;
+      margin: 0 0 18px 0;
+    }
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .feature-icon {
+      font-size: 18px;
+    }
+    .feature-text h4 {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .feature-text p {
+      margin: 0;
+      font-size: 10px;
+      color: #9ca3af;
+    }
+    .footer-section {
+      width: 100%;
+      max-width: 320px;
+      margin-bottom: 12px;
+    }
+    .spinner-bar {
+      height: 4px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .spinner-bar-fill {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      background: linear-gradient(90deg, #f43f5e, #f59e0b);
+      border-radius: 9999px;
+      animation: progressAnim 2.2s infinite ease-in-out;
+    }
+    @keyframes progressAnim {
+      0% { left: 0%; width: 0%; }
+      50% { left: 25%; width: 50%; }
+      100% { left: 100%; width: 0%; }
+    }
+    .status-text {
+      color: #fca5a5;
+      font-size: 12px;
+      font-weight: 500;
+      margin: 0;
     }
     .error-card {
       display: none;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(244, 63, 94, 0.3);
       border-radius: 16px;
-      padding: 20px;
-      max-width: 340px;
-      width: 100%;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      animation: fadeIn 0.3s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      padding: 16px;
+      margin-top: 10px;
     }
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
       width: 100%;
-      padding: 12px 20px;
-      font-size: 14px;
-      font-weight: 600;
+      padding: 11px 16px;
+      font-size: 13px;
+      font-weight: 700;
       color: #fff;
       background: linear-gradient(135deg, #f43f5e, #e11d48);
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(244, 63, 94, 0.4);
-      transition: all 0.2s;
-    }
-    .btn:active {
-      transform: scale(0.98);
-      opacity: 0.9;
-    }
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow: none;
-      color: #d1d5db;
-      margin-top: 10px;
-    }
-    .dev-panel {
-      display: none;
-      margin-top: 16px;
-      text-align: left;
-    }
-    .dev-panel label {
-      display: block;
-      font-size: 11px;
-      color: #9ca3af;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .dev-panel input {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(0, 0, 0, 0.4);
-      color: #fff;
-      font-size: 13px;
-      margin-bottom: 10px;
-      box-sizing: border-box;
-    }
-    .dev-panel input:focus {
-      outline: none;
-      border-color: #f43f5e;
+      margin-top: 8px;
     }
   </style>
 </head>
 <body>
-  <div class="logo-container">
-    <img src="icon-192.png" alt="Cha Adda Logo" class="logo-img" onerror="this.style.display='none'">
-  </div>
-  
-  <div id="spinner" class="spinner"></div>
-  <h2>চা আড্ডা (Cha Adda)</h2>
-  <p id="status" class="status-text">Connecting to secure mobile servers...</p>
+  <div class="ambient-glow"></div>
 
-  <div id="error-card" class="error-card">
-    <p style="color: #fca5a5; font-size: 13px; margin: 0 0 16px 0;">
-      Unable to reach server. Please check your internet connection.
-    </p>
-    <button class="btn" onclick="retryConnection()">
-      🔄 Retry Connection
-    </button>
-    <button class="btn btn-secondary" onclick="toggleDevPanel()">
-      ⚙️ Change Server URL
-    </button>
-    <div id="dev-panel" class="dev-panel">
-      <label>Server Endpoint:</label>
-      <input type="text" id="custom-url-input" placeholder="http://10.0.2.2:3000">
-      <button class="btn" style="padding: 8px 12px; font-size: 12px;" onclick="applyCustomUrl()">
-        Save & Connect
-      </button>
+  <div class="top-badge">
+    ✨ চা আড্ডা • 18+ Verified Matchmaking
+  </div>
+
+  <div>
+    <div class="logo-container">
+      <div class="logo-pulse"></div>
+      <img src="icon-192.png" alt="CHA ADDA Logo" class="logo-img" onerror="this.style.display='none'">
+    </div>
+
+    <h1>চা আড্ডা (CHA ADDA)</h1>
+    <p class="tagline-bn">চা আর আড্ডায় তৈরি হোক সম্পর্কের গল্প</p>
+    <p class="tagline-en">Meet. Swap. Connect. Where conversations brew connections.</p>
+
+    <div class="features-list">
+      <div class="feature-item">
+        <span class="feature-icon">☕</span>
+        <div class="feature-text">
+          <h4>চা আড্ডা স্পট (Adda Spots)</h4>
+          <p>ভার্চুয়াল চ্যাট নয়, সরাসরি আসল চা-কফি ডেটে দেখা করুন।</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">💖</span>
+        <div class="feature-text">
+          <h4>স্মার্ট সোয়াইপ ও ম্যাচ (Swipe & Match)</h4>
+          <p>কাছের পছন্দের মানুষের সাথে ভাইব মিললেই ম্যাচ।</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🛡️</span>
+        <div class="feature-text">
+          <h4>১৮+ ব্লু-টিক ভেরিফাইড (100% Verified)</h4>
+          <p>লাইভ সেলফি ক্যামেরায় ১০০% নিরাপদ ও অথেনটিক প্রোফাইল।</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-section">
+    <div class="spinner-bar">
+      <div class="spinner-bar-fill"></div>
+    </div>
+    <p id="status" class="status-text">সার্ভারের সাথে কানেক্ট হচ্ছে...</p>
+
+    <div id="error-card" class="error-card">
+      <p style="color: #fca5a5; font-size: 12px; margin: 0 0 10px 0;">
+        সার্ভারের সাথে যুক্ত হতে পারছে না। আপনার ইন্টারনেট সংযোগ চেক করুন।
+      </p>
+      <button class="btn" onclick="retryConnection()">🔄 পুনরায় চেষ্টা করুন (Retry)</button>
     </div>
   </div>
 
   <script>
     const DEFAULT_SERVER = "https://cha-adda-meet-swap.vercel.app";
     const statusEl = document.getElementById("status");
-    const spinnerEl = document.getElementById("spinner");
     const errorCardEl = document.getElementById("error-card");
-    const customUrlInput = document.getElementById("custom-url-input");
 
     function getTargetUrl() {
       try {
@@ -177,63 +256,28 @@
 
     function redirectToTarget() {
       const url = getTargetUrl();
-      if (customUrlInput) {
-        customUrlInput.value = url;
-      }
-      
-      // Attempt redirect immediately
       window.location.replace(url);
 
-      // If redirect fails or takes longer than 5 seconds (offline/network issue)
       setTimeout(() => {
-        if (spinnerEl) spinnerEl.style.display = "none";
         if (statusEl) {
-          statusEl.textContent = "Offline or slow connection";
-          statusEl.style.color = "#f87171";
+          statusEl.textContent = "সার্ভার রেসপন্স ধীর বা অফলাইন";
         }
         if (errorCardEl) {
           errorCardEl.style.display = "block";
         }
-      }, 5000);
+      }, 5500);
     }
 
     function retryConnection() {
       if (errorCardEl) errorCardEl.style.display = "none";
-      if (spinnerEl) spinnerEl.style.display = "block";
-      if (statusEl) {
-        statusEl.textContent = "Connecting to secure mobile servers...";
-        statusEl.style.color = "#9ca3af";
-      }
-      const url = getTargetUrl();
-      window.location.replace(url);
+      if (statusEl) statusEl.textContent = "আবার চেষ্টা করা হচ্ছে...";
+      window.location.replace(getTargetUrl());
       setTimeout(() => {
         if (errorCardEl) errorCardEl.style.display = "block";
-        if (spinnerEl) spinnerEl.style.display = "none";
       }, 5000);
     }
 
-    function toggleDevPanel() {
-      const panel = document.getElementById("dev-panel");
-      if (panel) {
-        panel.style.display = panel.style.display === "block" ? "none" : "block";
-      }
-    }
-
-    function applyCustomUrl() {
-      const val = customUrlInput ? customUrlInput.value.trim() : "";
-      if (val) {
-        try {
-          localStorage.setItem("cha_adda_custom_server", val);
-        } catch (e) {}
-        retryConnection();
-      }
-    }
-
-    window.addEventListener("online", () => {
-      retryConnection();
-    });
-
-    // Start connection immediately
+    window.addEventListener("online", retryConnection);
     redirectToTarget();
   </script>
 </body>

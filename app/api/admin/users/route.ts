@@ -10,7 +10,11 @@ export async function GET(request: Request) {
     const { isSupabaseConfigured } = getAppEnv();
 
     if (!isSupabaseConfigured) {
-      return NextResponse.json({ users: devStore.getAllProfiles() });
+      const devUsers = devStore.getAllProfiles().map((p) => ({
+        ...p,
+        email: p.email || `${p.display_name.toLowerCase().replace(/[^a-z0-9]/g, "") || "user"}@chaadda.com`,
+      }));
+      return NextResponse.json({ users: devUsers });
     }
 
     const supabase = await createClient();
@@ -59,8 +63,11 @@ export async function GET(request: Request) {
       return NextResponse.json({ users: devStore.getAllProfiles() });
     }
 
-    // Fetch auth metadata to merge verified, verified_until & phone
-    let authUserMap = new Map<string, { meta: Record<string, unknown>; phone?: string | null }>();
+    // Fetch auth metadata to merge verified, verified_until, phone & email
+    let authUserMap = new Map<
+      string,
+      { meta: Record<string, unknown>; phone?: string | null; email?: string | null }
+    >();
     try {
       const { data: authUsersData } = await adminClient.auth.admin.listUsers({ perPage: 1000 });
       if (authUsersData?.users) {
@@ -70,6 +77,7 @@ export async function GET(request: Request) {
             {
               meta: (u.user_metadata as Record<string, unknown>) || {},
               phone: u.phone || (u.user_metadata?.phone as string | undefined) || null,
+              email: u.email || null,
             },
           ])
         );
@@ -83,6 +91,7 @@ export async function GET(request: Request) {
       const meta = authInfo?.meta || {};
       return {
         ...p,
+        email: p.email || authInfo?.email || null,
         phone: p.phone || authInfo?.phone || (meta.phone as string | undefined) || null,
         verified: p.verified ?? (meta.verified as boolean | undefined) ?? false,
         verified_until:

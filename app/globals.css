@@ -79,6 +79,16 @@ body {
   font-feature-settings: "rlig" 1, "calt" 1;
   overflow-x: hidden;
   transition: background-color 0.25s ease, color 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+  touch-action: manipulation;
+}
+
+/* Eliminate native web callout menus on long press for action buttons */
+button, a, [role="button"], .tab-item {
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 /* Custom scrollbars */

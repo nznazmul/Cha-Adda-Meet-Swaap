@@ -266,6 +266,7 @@ export default function AdminUsersPage() {
   const filteredUsers = users.filter((u) => {
     const matchesSearch =
       u.display_name.toLowerCase().includes(search.toLowerCase()) ||
+      (u.email || "").toLowerCase().includes(search.toLowerCase()) ||
       u.city.toLowerCase().includes(search.toLowerCase()) ||
       (u.phone || "").toLowerCase().includes(search.toLowerCase()) ||
       u.id.toLowerCase().includes(search.toLowerCase());
@@ -430,8 +431,20 @@ export default function AdminUsersPage() {
                         <BlueTickBadge profile={u} size="sm" />
                       </div>
                       <p className="text-[11px] text-muted-foreground mt-0.5">
-                        {age} yrs • {u.gender} • {u.city} {u.phone ? `• 📱 ${u.phone}` : ""}
+                        {age} yrs • {u.gender} • {u.city}
                       </p>
+                      <div className="flex flex-col gap-0.5 mt-1 text-[11px] font-mono">
+                        {u.email && (
+                          <span className="text-sky-400 flex items-center gap-1 truncate font-sans">
+                            ✉️ {u.email}
+                          </span>
+                        )}
+                        {u.phone && (
+                          <span className="text-rose-400 flex items-center gap-1 font-sans font-semibold">
+                            📱 {u.phone}
+                          </span>
+                        )}
+                      </div>
                       <div className="mt-1">
                         {isProfileVerified(u) ? (
                           <span className="inline-flex items-center gap-1 text-[10px] text-sky-400 font-bold bg-sky-500/10 px-2 py-0.5 rounded-full border border-sky-500/20">
@@ -599,7 +612,12 @@ export default function AdminUsersPage() {
                             <Link href={`/profile/${u.id}`} className="hover:text-primary transition-colors block">
                               {u.display_name}
                             </Link>
-                            <div className="flex items-center gap-1.5 flex-wrap text-[10px] text-muted-foreground font-mono">
+                            <div className="flex items-center gap-1.5 flex-wrap text-[10px] text-muted-foreground font-mono mt-0.5">
+                              {u.email ? (
+                                <span className="font-sans font-medium text-sky-400 bg-sky-500/10 px-1.5 py-0.5 rounded border border-sky-500/20">
+                                  ✉️ {u.email}
+                                </span>
+                              ) : null}
                               {u.phone ? (
                                 <span className="font-sans font-semibold text-rose-500 bg-rose-500/10 px-1.5 py-0.5 rounded">
                                   📱 {u.phone}
@@ -959,6 +977,16 @@ export default function AdminUsersPage() {
                   <p className="text-xs text-muted-foreground mt-0.5">
                     Member: <span className="font-bold text-foreground">{blueTickUser.display_name}</span> ({blueTickUser.id.slice(0, 8)}...)
                   </p>
+                  {(blueTickUser.email || blueTickUser.phone) && (
+                    <div className="flex items-center gap-2 text-[11px] text-muted-foreground mt-1 flex-wrap">
+                      {blueTickUser.email && (
+                        <span className="text-sky-400 font-sans">✉️ {blueTickUser.email}</span>
+                      )}
+                      {blueTickUser.phone && (
+                        <span className="text-rose-400 font-semibold font-sans">📱 {blueTickUser.phone}</span>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
               <button
